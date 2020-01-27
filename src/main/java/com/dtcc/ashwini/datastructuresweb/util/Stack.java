@@ -8,8 +8,6 @@ public class Stack {
 	private ArrayList<String> myStack = new ArrayList<String>();
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 		Stack stack = new Stack();
 
 		stack.push("Ashwini");
@@ -47,14 +45,16 @@ public class Stack {
 	}
 
 	public String peek() {
-
-		String peek;
 		if (myStack.size() > 0)
-			return peek = myStack.get(0);
+			return myStack.get(0);
 		else
 			return null;
 	}
 
+	public void clear() {
+		myStack = new ArrayList<String>();
+	}
+	
 	public boolean isEmpty() {
 		return (myStack.size() <= 0);
 	}
@@ -64,7 +64,7 @@ public class Stack {
 	}
 
 	// Method to return Stack
-	public ArrayList getStack() {
+	public ArrayList<String> getData() {
 		return myStack;
 	}
 }
