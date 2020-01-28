@@ -1,5 +1,6 @@
 package com.dtcc.ashwini.datastructuresweb.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,9 +35,9 @@ public class StackController {
 		return inStack.getInStack();
 	}
 	
-	@PostMapping ("peek")
-	public String peekStack (@RequestParam Stack inStack) {
-		String outStr = inStack.peek();		
+	@PostMapping (value = "peek")
+	public String peekStack (@RequestBody Stack inStack) {
+		String outStr = inStack.peek();
 		return outStr;
 	}
 	

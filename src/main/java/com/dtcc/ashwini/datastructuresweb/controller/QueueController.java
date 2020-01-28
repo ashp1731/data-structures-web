@@ -1,6 +1,8 @@
 package com.dtcc.ashwini.datastructuresweb.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,27 +19,47 @@ public class QueueController {
 		return new Queue();
 	}
 	
-	@GetMapping ("dequeue")
+	@PostMapping ("dequeue")
 	public Queue dequeueQueue (@RequestParam Queue inQueue) {
 		inQueue.dequeue();
 		return inQueue;
 	}
 	
-	@GetMapping ("enqueue")
-	public Queue enqueueQueue (@RequestParam Queue inQueue, @RequestParam String inStr) {
-		inQueue.enqueue(inStr);		
-		return inQueue;
+	@PostMapping ("enqueue")
+	public Queue enqueueQueue (@RequestBody QueueEnqueueRequest inQueue) {
+		inQueue.getInQueue().enqueue(inQueue.getInStr());		
+		return inQueue.getInQueue();
 	}
 	
-	@GetMapping ("peek")
+	@PostMapping ("peek")
 	public String peekQueue (@RequestParam Queue inQueue) {
 		String outStr = inQueue.peek();		
 		return outStr;
 	}
 	
-	@GetMapping ("isEmpty")
+	@PostMapping ("isEmpty")
 	public boolean isEmptyQueue (@RequestParam Queue inQueue) {
 		boolean outIsEmpty = inQueue.isEmpty();
 		return outIsEmpty;
 	}
+}
+
+class QueueEnqueueRequest {
+	private Queue inQueue;
+	private String inStr;
+	
+	public Queue getInQueue() {
+		return inQueue;
+	}
+	public void setInQueue(Queue inQueue) {
+		this.inQueue = inQueue;
+	}
+	public String getInStr() {
+		return inStr;
+	}
+	public void setInStr(String inStr) {
+		this.inStr = inStr;
+	}
+	
+
 }
