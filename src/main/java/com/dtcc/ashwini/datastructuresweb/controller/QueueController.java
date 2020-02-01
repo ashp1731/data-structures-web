@@ -1,5 +1,6 @@
 package com.dtcc.ashwini.datastructuresweb.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import com.dtcc.ashwini.datastructuresweb.util.Stack;
 
 @RestController
 @RequestMapping("queue/v1")
+@CrossOrigin(origins = "http://localhost:4200")
 public class QueueController {
 
 	@GetMapping ("new-queue")
@@ -20,7 +22,7 @@ public class QueueController {
 	}
 	
 	@PostMapping ("dequeue")
-	public Queue dequeueQueue (@RequestParam Queue inQueue) {
+	public Queue dequeueQueue (@RequestBody Queue inQueue) {
 		inQueue.dequeue();
 		return inQueue;
 	}
@@ -32,7 +34,7 @@ public class QueueController {
 	}
 	
 	@PostMapping ("peek")
-	public String peekQueue (@RequestParam Queue inQueue) {
+	public String peekQueue (@RequestBody Queue inQueue) {
 		String outStr = inQueue.peek();		
 		return outStr;
 	}
