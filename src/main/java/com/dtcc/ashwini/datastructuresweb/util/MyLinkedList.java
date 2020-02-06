@@ -95,15 +95,16 @@ public class MyLinkedList<E>{
 		}
 	}
 	
-	public void removeFirst() {
+	public LinkedNode removeFirst() {
 		
 		LinkedNode<E> node = head;
 		LinkedNode<E> node1 = node.next;
 		node.next = null;
 		head = node1;
+		return node;
 	}
 	
-	public void removeLast() {
+	public LinkedNode removeLast() {
 		
 		LinkedNode<E> node = head;
 		LinkedNode<E> prevNode = head;
@@ -115,15 +116,16 @@ public class MyLinkedList<E>{
 		}
 		
 		prevNode.next = null;
-		node = null;
+//		node = null;
 		tail = prevNode;
-
+		return node;
 	}
 	
-	public void removeAt(int index) {
+	public LinkedNode removeAt(int index) {
 		
 		if(index == 0) {
 			head = head.next;
+			return head;
 		}
 		else {
 			
@@ -134,8 +136,9 @@ public class MyLinkedList<E>{
 			LinkedNode<E> nextNode = node.next;
 			node.next = nextNode.next;
 			System.out.println("Deleted Node" + nextNode.getElement());
+			return nextNode;
 		}
-
+		
 	}
 
 	
