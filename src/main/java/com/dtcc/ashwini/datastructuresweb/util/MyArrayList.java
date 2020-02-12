@@ -75,7 +75,15 @@ public class MyArrayList<T> {
 	public void delete(T t) {
 		// Removes first occurence input value in array
 		int index = getIndex(t);
-		for(int i = index+1; i<= size; i++) {
+		for(int i = 0; i < underlyingArrayList.length; i++) {
+			if(underlyingArrayList[i] == t) {
+				index = i;
+			break;	
+			}
+		}
+
+		
+		for(int i = index+1; i< size; i++) {
 			underlyingArrayList[i-1] = underlyingArrayList[i];		
 		}
 		size--;
@@ -97,7 +105,7 @@ public class MyArrayList<T> {
 	 public int getIndex(T t) {
 		 int index = 0;
 		 for (int i = 0; i < underlyingArrayList.length; i++) {
-			 if(underlyingArrayList[i] == t)
+			 if(underlyingArrayList[i].equals(t))
 				 index = i;
 		 }
 		 return index;
