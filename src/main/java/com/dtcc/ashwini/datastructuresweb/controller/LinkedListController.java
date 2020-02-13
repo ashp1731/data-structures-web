@@ -21,10 +21,6 @@ public class LinkedListController {
 	@GetMapping("new-linkedlist")
 	public MyLinkedList<String> getNewArraylist() {
 		MyLinkedList underlyingList = new MyLinkedList();
-		underlyingList.addLast(5);
-		underlyingList.addLast(6);
-		underlyingList.addLast(7);
-		underlyingList.addLast(8);
 		return underlyingList;
 	}
 

@@ -51,7 +51,7 @@ public class BinarySearchTree {
 		Node root = null;
 		
 		// Inserting Nodes into Tree
-		int[] keys = {50,40,60,45,35,20,42,90,110,100,92,10};
+		int[] keys = {50,40,60,45,35,20,42,90,110,100,92,10,37};
 		
 		for(int key : keys){
 			root = insert(root, key);
@@ -82,6 +82,23 @@ public class BinarySearchTree {
 		
 		// Size of Binary Tree
 		System.out.println("Size of Tree : " + tree.getSize());
+		
+		Node parentNode = tree.getParent(tree.getRoot(), 50);
+		
+		if(parentNode != null)
+			System.out.println("Parent Node : " + parentNode.getData());
+		
+		// Delete a Node
+		System.out.println("\nDeleteing 10");
+		tree.deleteNode(tree.getRoot(), 10);
+		System.out.println("Post Order after Delete");
+		
+		System.out.println("\nDeleting 40");
+		tree.deleteNode(tree.getRoot(), 40);
+		System.out.println("Post Order after Delete");
+		// Post Order traversal
+		tree.toStringPostOrder();
+		System.out.println();
 		
 //		// Clear the Tree
 //		root.clearStatic(root.searchNode(100));
@@ -138,7 +155,72 @@ public class BinarySearchTree {
 		// TODO Auto-generated method stub
 		return root.search(i);
 	}
+	
+	private void deleteNode(Node node, int value) {
+	
+		// node is root
+		
+			if(root.getData() == value) {
+				
+			}
+			else {
+				
+				Node deleteNode = searchNode(value);
+				Node parentNode = getParent(root, value);
+
+				if(deleteNode.getLeftNode() == null && deleteNode.getRightNode() == null) {
+					if(parentNode.getLeftNode() == deleteNode) {
+						parentNode.setLeftNode(null);
+					}
+					else if (parentNode.getRightNode() == deleteNode) {
+						parentNode.setRightNode(null);
+					}
+				}
+				else if (deleteNode.getLeftNode() != null ) {
+					
+					if(deleteNode.getRightNode() != null) {
+						while(deleteNode.getRightNode() != null) {
+							deleteNode = deleteNode.getRightNode();
+						}
+						parentNode.setLeftNode(deleteNode);
+					}
+					else {
+						parentNode.setLeftNode(deleteNode.getLeftNode());
+					}				
+				} 
+				else {
+					
+				} 
+			}
+				
+	}
+	
+	private Node getParent(Node node, int value) {
+		
+		if(node == null) {
+			return null;
+		}
+		
+		Node getParent = null;
+		while(node != null) {
+			
+			if(value < node.getData()) {
+				getParent = node;
+				node = node.leftNode;
+			}
+			else if(value > node.getData()) {
+				getParent = node;
+				node = node.rightNode;
+			}
+			else {
+				return getParent;
+			}
+			
+		}
+		return getParent;
+	}
 }
+
 	
 	
 

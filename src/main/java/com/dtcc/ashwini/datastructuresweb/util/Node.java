@@ -181,4 +181,28 @@ public class Node {
 			}
 		}
 	}
+	
+	public Node delete(Node node) {
+		
+		if(data == 0) {
+			return null;
+		}
+		else {
+			
+			if(node.getData() == data) {
+				Node newRoot;
+				if(leftNode != null)
+					newRoot = leftNode;
+				else if(rightNode != null)
+					newRoot = rightNode;
+				else
+					newRoot = null;
+			}
+			else {
+				
+			}
+
+			return node;
+		}
+	}
 }
