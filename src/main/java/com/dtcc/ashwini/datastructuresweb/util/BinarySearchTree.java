@@ -25,12 +25,15 @@ public class BinarySearchTree<E> {
 					insert(node.leftNode, value);
 				}
 			}
-			else {
+			else if(value > node.getElement()){
 				if (node.rightNode == null) {
 					node.rightNode = new Node(value);
 				} else {
 					insert(node.rightNode, value);
 				}
+			}
+			else {
+				System.out.println("Duplicate Node" + value);
 			}
 		}
 	}
@@ -185,8 +188,7 @@ public class BinarySearchTree<E> {
 						if(root.getElement() == value) {
 							
 							temp = node.leftNode == null ? node.rightNode : node.leftNode;
-							root.setElement(temp.getElement());
-							node.leftNode = null;
+							root = temp;
 							return root;
 						} else {
 							return temp;
@@ -194,17 +196,19 @@ public class BinarySearchTree<E> {
 						
 				}
 				else {
-					// find inOrder Succesor of value node, and replace value node with successor
+					
 					if(node.leftNode != null) {
+						
+						Node temp = node.rightNode;
 						node = node.leftNode;
+						Node insert = node.rightNode;
+						node.rightNode = temp;
+						insert(root, insert.getElement());
+						if(root.getElement() == value) {
+							root = node;
+							return root;
+						}
 						return node;
-					}
-					else if(node.rightNode != null) {
-						node = node.rightNode;
-						return node;
-					}
-					else {
-						// both are not null
 					}
 					return null;
 				}
@@ -236,18 +240,6 @@ public class BinarySearchTree<E> {
 			
 		}
 		return getParent;
-	}
-	
-	private Node getSuccesor (Node node){
-		
-		Node temp = node.getRightNode();
-		if(temp == null)
-			return null;
-		
-		while(temp.getLeftNode() != null) {
-			temp = temp.leftNode;
-		}
-		return temp;
 	}
 }
 

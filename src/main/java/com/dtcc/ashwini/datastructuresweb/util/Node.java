@@ -42,7 +42,7 @@ public class Node {
 		} else if (rightNode == null) {
 			return Arrays.asList(leftNode);
 		}
-		return Arrays.asList(leftNode, rightNode);
+		return Arrays.asList(rightNode, leftNode);
 	}
 
 	public void setChildren(List<Node> children) {
