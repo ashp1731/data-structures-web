@@ -17,35 +17,42 @@ import com.dtcc.ashwini.datastructuresweb.util.Node;
 @CrossOrigin(origins = "http://localhost:4200")
 public class BinaryTreeController {
 
-//	@GetMapping ("new-binarytree")
-//	public MyArrayList<String> getNewArraylist () {
-//		return new MyArrayList<String>();
-//	}
+	@GetMapping ("new-binarytree")
+	public BinarySearchTree<String> getNewBinaryTree () {
+		return new BinarySearchTree<String>();
+	}
+	
+	@PostMapping ("insert")
+	public BinarySearchTree<String> insert (@RequestBody BinaryTreeObject inBinaryTree) {
+		inBinaryTree.getInBinaryTree().insert(inBinaryTree.getInBinaryTree().getRoot(), inBinaryTree.getValue());
+		return inBinaryTree.getInBinaryTree();
+	}
 //	
-//	@PostMapping ("insert")
-//	public MyArrayList<String> insert (@RequestBody binaryTreeObject inBinaryTree) {
-//		inBinaryTree.getBinaryTree().insert(inBinaryTree.getBinaryTree().getRoot(), inBinaryTree.getValue())
-//	}
-//	
-//	@PostMapping ("delete")
-//	public MyArrayList<String> delete (@RequestBody binaryTreeObject inBinaryTree) {
-//		inArrayList.getInArrayList().addAt(inArrayList.getIndex(), inArrayList.getValue());
-//		return inArrayList.getInArrayList();
-//	}
+	@PostMapping ("delete")
+	public BinarySearchTree<String> delete (@RequestBody BinaryTreeObject inBinaryTree) {
+		inBinaryTree.getInBinaryTree().deleteNode(inBinaryTree.getInBinaryTree().getRoot(), inBinaryTree.getValue());
+		return inBinaryTree.getInBinaryTree();
+	}
+	
+	@PostMapping ("tree-height")
+	public int getHeight (@RequestBody BinaryTreeObject inBinaryTree) {
+		return inBinaryTree.getInBinaryTree().getHeight();
+	}
+	
+	@PostMapping ("tree-size")
+	public int getSize (@RequestBody BinaryTreeObject inBinaryTree) {
+		return inBinaryTree.getInBinaryTree().getSize();
+	}
 //
-//	@PostMapping ("search")
-//	public MyArrayList<String> search (@RequestBody binaryTreeObject inBinaryTree) {
-//		inArrayList.getInArrayList().addAt(inArrayList.getIndex(), inArrayList.getValue());
-//		return inArrayList.getInArrayList();
-//	}
+
 }
 
-class binaryTreeObject {
+class BinaryTreeObject {
 	
-	private BinarySearchTree binaryTree;
-	private Node node;
+	private BinarySearchTree inBinaryTree;
+//	private Node node;
 	int value;
-	
+
 	
 	public int getValue() {
 		return value;
@@ -53,18 +60,18 @@ class binaryTreeObject {
 	public void setValue(int value) {
 		this.value = value;
 	}
-	public BinarySearchTree getBinaryTree() {
-		return binaryTree;
+	public BinarySearchTree getInBinaryTree() {
+		return inBinaryTree;
 	}
-	public void setBinaryTree(BinarySearchTree binaryTree) {
-		this.binaryTree = binaryTree;
+	public void setInBinaryTree(BinarySearchTree binaryTree) {
+		this.inBinaryTree = binaryTree;
 	}
-	public Node getNode() {
-		return node;
-	}
-	public void setNode(Node node) {
-		this.node = node;
-	}
+//	public Node getNode() {
+//		return node;
+//	}
+//	public void setNode(Node node) {
+//		this.node = node;
+//	}
 	
 	
 	

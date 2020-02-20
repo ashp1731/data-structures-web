@@ -1,9 +1,8 @@
 package com.dtcc.ashwini.datastructuresweb.util;
 
-public class BinarySearchTree {
+public class BinarySearchTree<E> {
 
 	private Node root;
-	
 	
 	public Node getRoot() {
 		return root;
@@ -13,21 +12,26 @@ public class BinarySearchTree {
 		this.root = root;
 	}
 
-	public static  Node insert(Node root, int value) {
+	public void insert(Node node, int value) {
 		
 		if(root == null) {
-			return new Node(value);
+			root = new Node(value);
 		}
 		else {
-			if(value < root.getData()) {
-				root.leftNode = insert(root.leftNode, value);
-				System.out.println("inserting Left Node : " + value);
+			if(value < node.getElement()) {
+				if (node.leftNode == null) {
+					node.leftNode = new Node(value);
+				} else {
+					insert(node.leftNode, value);
+				}
 			}
 			else {
-				root.rightNode = insert(root.rightNode, value);
-				System.out.println("Inserting Right Node : " + value);
+				if (node.rightNode == null) {
+					node.rightNode = new Node(value);
+				} else {
+					insert(node.rightNode, value);
+				}
 			}
-			return root;
 		}
 	}
 	
@@ -54,7 +58,7 @@ public class BinarySearchTree {
 		int[] keys = {50,40,60,45,35,20,42,90,110,100,92,10,37};
 		
 		for(int key : keys){
-			root = insert(root, key);
+			tree.insert(root, key);
 			if(tree.getRoot() == null)
 			tree.setRoot(root);
 			
@@ -86,7 +90,7 @@ public class BinarySearchTree {
 		Node parentNode = tree.getParent(tree.getRoot(), 50);
 		
 		if(parentNode != null)
-			System.out.println("Parent Node : " + parentNode.getData());
+			System.out.println("Parent Node : " + parentNode.getElement());
 		
 		// Delete a Node
 		System.out.println("\nDeleteing 10");
@@ -117,7 +121,7 @@ public class BinarySearchTree {
 	private int getData() {
 		if (root == null)
 			return -1;
-		return root.getData();
+		return root.getElement();
 	}
 
 	private Node searchNode(int i) {
@@ -126,13 +130,13 @@ public class BinarySearchTree {
 		return root.searchNode(i);
 	}
 
-	private int getSize() {
+	public int getSize() {
 		if (root == null)
 			return 0;
 		return root.getSize();
 	}
 
-	private int getHeight() {
+	public int getHeight() {
 		if (root == null)
 			return 0;
 		return root.getHeight();
@@ -156,43 +160,57 @@ public class BinarySearchTree {
 		return root.search(i);
 	}
 	
-	private void deleteNode(Node node, int value) {
+	public Node deleteNode(Node node, int value) {
 	
 		// node is root
 		
-			if(root.getData() == value) {
-				
+			if(node == null) {
+				return null;
+			}
+			
+			if(value < node.getElement()) {
+				node.leftNode = deleteNode(node.leftNode, value);
+			}
+			else if (value > node.getElement()) {
+				node.rightNode = deleteNode(node.rightNode, value);
 			}
 			else {
-				
-				Node deleteNode = searchNode(value);
-				Node parentNode = getParent(root, value);
-
-				if(deleteNode.getLeftNode() == null && deleteNode.getRightNode() == null) {
-					if(parentNode.getLeftNode() == deleteNode) {
-						parentNode.setLeftNode(null);
-					}
-					else if (parentNode.getRightNode() == deleteNode) {
-						parentNode.setRightNode(null);
-					}
-				}
-				else if (deleteNode.getLeftNode() != null ) {
+				if(node.leftNode == null || node.rightNode == null) {
 					
-					if(deleteNode.getRightNode() != null) {
-						while(deleteNode.getRightNode() != null) {
-							deleteNode = deleteNode.getRightNode();
+					Node temp = null;
+					temp = node.leftNode == null ? node.rightNode : node.leftNode;
+					if(temp == null)
+						return null;
+					else
+						if(root.getElement() == value) {
+							
+							temp = node.leftNode == null ? node.rightNode : node.leftNode;
+							root.setElement(temp.getElement());
+							node.leftNode = null;
+							return root;
+						} else {
+							return temp;
 						}
-						parentNode.setLeftNode(deleteNode);
+						
+				}
+				else {
+					// find inOrder Succesor of value node, and replace value node with successor
+					if(node.leftNode != null) {
+						node = node.leftNode;
+						return node;
+					}
+					else if(node.rightNode != null) {
+						node = node.rightNode;
+						return node;
 					}
 					else {
-						parentNode.setLeftNode(deleteNode.getLeftNode());
-					}				
-				} 
-				else {
-					
-				} 
+						// both are not null
+					}
+					return null;
+				}
 			}
-				
+
+			return node;
 	}
 	
 	private Node getParent(Node node, int value) {
@@ -204,11 +222,11 @@ public class BinarySearchTree {
 		Node getParent = null;
 		while(node != null) {
 			
-			if(value < node.getData()) {
+			if(value < node.getElement()) {
 				getParent = node;
 				node = node.leftNode;
 			}
-			else if(value > node.getData()) {
+			else if(value > node.getElement()) {
 				getParent = node;
 				node = node.rightNode;
 			}
@@ -218,6 +236,18 @@ public class BinarySearchTree {
 			
 		}
 		return getParent;
+	}
+	
+	private Node getSuccesor (Node node){
+		
+		Node temp = node.getRightNode();
+		if(temp == null)
+			return null;
+		
+		while(temp.getLeftNode() != null) {
+			temp = temp.leftNode;
+		}
+		return temp;
 	}
 }
 

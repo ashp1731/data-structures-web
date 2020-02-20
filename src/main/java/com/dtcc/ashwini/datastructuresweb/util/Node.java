@@ -1,17 +1,21 @@
 package com.dtcc.ashwini.datastructuresweb.util;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 // Binary Search tree Example
 public class Node {
 
-	private int data;
+	private int element;
 	public Node leftNode, rightNode;
 
-	public int getData() {
-		return data;
+	public int getElement() {
+		return element;
 	}
 
-	public void setData(int data) {
-		this.data = data;
+	public void setElement(int element) {
+		this.element = element;
 	}
 
 	public Node getLeftNode() {
@@ -29,12 +33,26 @@ public class Node {
 	public void setRightNode(Node rightNode) {
 		this.rightNode = rightNode;
 	}
+	
+	public List<Node> getChildren () {
+		if (leftNode == null && rightNode == null) {
+			return Collections.EMPTY_LIST;
+		} else if (leftNode == null) {
+			return Arrays.asList(rightNode);
+		} else if (rightNode == null) {
+			return Arrays.asList(leftNode);
+		}
+		return Arrays.asList(leftNode, rightNode);
+	}
+
+	public void setChildren(List<Node> children) {
+	}
 
 	public Node() {
 	}
 
 	public Node(int data) {
-		this.data = data;
+		this.element = data;
 		leftNode = rightNode = null;
 	}
 
@@ -61,11 +79,11 @@ public class Node {
 //	}
 
 	public boolean search(int value) {
-		if (value == data) {
+		if (value == element) {
 			return true;
-		} else if (value > data && rightNode != null) {
+		} else if (value > element && rightNode != null) {
 			return rightNode.search(value);
-		} else if (value < data && leftNode != null) {
+		} else if (value < element && leftNode != null) {
 			return leftNode.search(value);
 		} else {
 			return false;
@@ -73,11 +91,11 @@ public class Node {
 	}
 
 	public Node searchNode(int value) {
-		if (value == data) {
+		if (value == element) {
 			return this;
-		} else if (value > data && rightNode != null) {
+		} else if (value > element && rightNode != null) {
 			return rightNode.searchNode(value);
-		} else if (value < data && leftNode != null) {
+		} else if (value < element && leftNode != null) {
 			return leftNode.searchNode(value);
 		} else {
 			return null;
@@ -92,7 +110,7 @@ public class Node {
 		if (rightNode != null) {
 			rightNode.toStringPostOrder();
 		}
-		System.out.println(data);
+		System.out.println(element);
 	}
 
 	// LNR (In Order)
@@ -100,38 +118,38 @@ public class Node {
 		if (leftNode != null) {
 			leftNode.toStringPostOrder();
 		}
-		System.out.println(data);
+		System.out.println(element);
 		if (rightNode != null) {
 			rightNode.toStringPostOrder();
 		}
 	}
 
 	public void clear(Node node) {
-		if (node.data == data) {
+		if (node.element == element) {
 			if (leftNode != null) {
-				System.out.println("Deleting Node : " + leftNode.getData() );
+				System.out.println("Deleting Node : " + leftNode.getElement() );
 				leftNode.clear(leftNode);
 				leftNode = null;
 			}
 			
 			if(rightNode != null) {
-				System.out.println("Deleting Node : " + rightNode.getData() );
+				System.out.println("Deleting Node : " + rightNode.getElement() );
 				rightNode.clear(rightNode);
 				rightNode = null;
 			}
-		} else if (rightNode != null && node.data > data) {
+		} else if (rightNode != null && node.element > element) {
 			rightNode.clear(node);
-			if (rightNode.data == node.data)
+			if (rightNode.element == node.element)
 				rightNode = null;
-		} else if (leftNode != null && node.data < data) {
+		} else if (leftNode != null && node.element < element) {
 			leftNode.clear(node);
-			if (leftNode.data == node.data)
+			if (leftNode.element == node.element)
 				leftNode = null;
 		}
 	}
 
 	public int getHeight() {
-		if (data == 0) {
+		if (element == 0) {
 			return 0;
 		} else {
 
@@ -151,7 +169,7 @@ public class Node {
 	}
 
 	public int getSize() {
-		if (data == 0) {
+		if (element == 0) {
 			return 0;
 		} else {
 			int lSize = 0;
@@ -169,7 +187,7 @@ public class Node {
 	}
 	
 	public boolean isEmpty() {
-		if(data == 0) {
+		if(element == 0) {
 			return true;
 		}
 		else {
@@ -184,12 +202,12 @@ public class Node {
 	
 	public Node delete(Node node) {
 		
-		if(data == 0) {
+		if(element == 0) {
 			return null;
 		}
 		else {
 			
-			if(node.getData() == data) {
+			if(node.getElement() == element) {
 				Node newRoot;
 				if(leftNode != null)
 					newRoot = leftNode;
