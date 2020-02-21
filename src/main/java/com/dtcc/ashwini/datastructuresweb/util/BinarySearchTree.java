@@ -1,9 +1,8 @@
 package com.dtcc.ashwini.datastructuresweb.util;
 
-public class BinarySearchTree {
+public class BinarySearchTree<E> {
 
 	private Node root;
-	
 	
 	public Node getRoot() {
 		return root;
@@ -13,21 +12,29 @@ public class BinarySearchTree {
 		this.root = root;
 	}
 
-	public static  Node insert(Node root, int value) {
+	public void insert(Node node, int value) {
 		
 		if(root == null) {
-			return new Node(value);
+			root = new Node(value);
 		}
 		else {
-			if(value < root.getData()) {
-				root.leftNode = insert(root.leftNode, value);
-				System.out.println("inserting Left Node : " + value);
+			if(value < node.getElement()) {
+				if (node.leftNode == null) {
+					node.leftNode = new Node(value);
+				} else {
+					insert(node.leftNode, value);
+				}
+			}
+			else if(value > node.getElement()){
+				if (node.rightNode == null) {
+					node.rightNode = new Node(value);
+				} else {
+					insert(node.rightNode, value);
+				}
 			}
 			else {
-				root.rightNode = insert(root.rightNode, value);
-				System.out.println("Inserting Right Node : " + value);
+				System.out.println("Duplicate Node" + value);
 			}
-			return root;
 		}
 	}
 	
@@ -51,10 +58,10 @@ public class BinarySearchTree {
 		Node root = null;
 		
 		// Inserting Nodes into Tree
-		int[] keys = {50,40,60,45,35,20,42,90,110,100,92,10};
+		int[] keys = {50,40,60,45,35,20,42,90,110,100,92,10,37};
 		
 		for(int key : keys){
-			root = insert(root, key);
+			tree.insert(root, key);
 			if(tree.getRoot() == null)
 			tree.setRoot(root);
 			
@@ -83,6 +90,23 @@ public class BinarySearchTree {
 		// Size of Binary Tree
 		System.out.println("Size of Tree : " + tree.getSize());
 		
+		Node parentNode = tree.getParent(tree.getRoot(), 50);
+		
+		if(parentNode != null)
+			System.out.println("Parent Node : " + parentNode.getElement());
+		
+		// Delete a Node
+		System.out.println("\nDeleteing 10");
+		tree.deleteNode(tree.getRoot(), 10);
+		System.out.println("Post Order after Delete");
+		
+		System.out.println("\nDeleting 40");
+		tree.deleteNode(tree.getRoot(), 40);
+		System.out.println("Post Order after Delete");
+		// Post Order traversal
+		tree.toStringPostOrder();
+		System.out.println();
+		
 //		// Clear the Tree
 //		root.clearStatic(root.searchNode(100));
 		tree.clear();
@@ -100,7 +124,7 @@ public class BinarySearchTree {
 	private int getData() {
 		if (root == null)
 			return -1;
-		return root.getData();
+		return root.getElement();
 	}
 
 	private Node searchNode(int i) {
@@ -109,13 +133,13 @@ public class BinarySearchTree {
 		return root.searchNode(i);
 	}
 
-	private int getSize() {
+	public int getSize() {
 		if (root == null)
 			return 0;
 		return root.getSize();
 	}
 
-	private int getHeight() {
+	public int getHeight() {
 		if (root == null)
 			return 0;
 		return root.getHeight();
@@ -138,7 +162,87 @@ public class BinarySearchTree {
 		// TODO Auto-generated method stub
 		return root.search(i);
 	}
+	
+	public Node deleteNode(Node node, int value) {
+	
+		// node is root
+		
+			if(node == null) {
+				return null;
+			}
+			
+			if(value < node.getElement()) {
+				node.leftNode = deleteNode(node.leftNode, value);
+			}
+			else if (value > node.getElement()) {
+				node.rightNode = deleteNode(node.rightNode, value);
+			}
+			else {
+				if(node.leftNode == null || node.rightNode == null) {
+					
+					Node temp = null;
+					temp = node.leftNode == null ? node.rightNode : node.leftNode;
+					if(temp == null)
+						return null;
+					else
+						if(root.getElement() == value) {
+							
+							temp = node.leftNode == null ? node.rightNode : node.leftNode;
+							root = temp;
+							return root;
+						} else {
+							return temp;
+						}
+						
+				}
+				else {
+					
+					if(node.leftNode != null) {
+						
+						Node temp = node.rightNode;
+						node = node.leftNode;
+						Node insert = node.rightNode;
+						node.rightNode = temp;
+						insert(root, insert.getElement());
+						if(root.getElement() == value) {
+							root = node;
+							return root;
+						}
+						return node;
+					}
+					return null;
+				}
+			}
+
+			return node;
+	}
+	
+	private Node getParent(Node node, int value) {
+		
+		if(node == null) {
+			return null;
+		}
+		
+		Node getParent = null;
+		while(node != null) {
+			
+			if(value < node.getElement()) {
+				getParent = node;
+				node = node.leftNode;
+			}
+			else if(value > node.getElement()) {
+				getParent = node;
+				node = node.rightNode;
+			}
+			else {
+				return getParent;
+			}
+			
+		}
+		return getParent;
+	}
 }
+
 	
 	
 
